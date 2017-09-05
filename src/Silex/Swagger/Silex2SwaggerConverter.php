@@ -200,7 +200,7 @@ class Silex2SwaggerConverter
         foreach (explode('|', $methods) as $method) {
             $method = trim($method);
             // for now we need this...
-            $path = '/'.$request->uri;
+            $path = str_replace('//', '/', '/'.$request->uri);
 
             $swgClass = 'Swagger\\Annotations\\'.ucfirst($method);
             /** @var SWG\Operation $swgOperation */
