@@ -1,6 +1,8 @@
 Bridge to generate swagger documentation from Silex Annotations
 ===============================================================
 
+[![Build Status](https://travis-ci.org/DerManoMann/silex2swagger.png)](https://travis-ci.org/DerManoMann/silex2swagger)
+
 ## Introduction
 [Silex Annotations](https://github.com/danadesrosiers/silex-annotation-provider) are an easy way to configure
 routes in Silex.
