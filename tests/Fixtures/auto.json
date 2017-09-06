@@ -1,0 +1,111 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Silex Test API",
+        "version": "1.0.0"
+    },
+    "basePath": "\/",
+    "consumes": [
+        "application\/json"
+    ],
+    "produces": [
+        "application\/json"
+    ],
+    "paths": {
+        "\/request\/get": {
+            "get": {
+                "summary": "GET:\/request\/get",
+                "description": "GET:\/request\/get",
+                "operationId": "testCustomRequest",
+                "consumes": [
+                    "application\/x-www-form-urlencoded"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        },
+        "\/silex\/get": {
+            "get": {
+                "summary": "GET:\/silex\/get",
+                "description": "GET:\/silex\/get",
+                "operationId": "testGetRequest",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        },
+        "\/silex\/requirehttp": {
+            "get": {
+                "summary": "GET:\/silex\/requirehttp",
+                "description": "GET:\/silex\/requirehttp",
+                "operationId": "testRequireHttp",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                },
+                "schemes": [
+                    "http"
+                ]
+            }
+        },
+        "\/silex\/requirehttps": {
+            "get": {
+                "summary": "GET:\/silex\/requirehttps",
+                "description": "GET:\/silex\/requirehttps",
+                "operationId": "testRequireHttps",
+                "parameters": [],
+                "responses": {
+                    "default": {
+                        "description": "GET:\/silex\/requirehttps"
+                    }
+                },
+                "schemes": [
+                    "https"
+                ]
+            }
+        },
+        "\/silex\/bind": {
+            "get": {
+                "summary": "GET:\/silex\/bind",
+                "description": "GET:\/silex\/bind",
+                "operationId": "bound",
+                "parameters": [],
+                "responses": {
+                    "default": {
+                        "description": "GET:\/silex\/bind"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "jsonError": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "responses": {
+        "200": {
+            "description": "GET"
+        }
+    }
+}
