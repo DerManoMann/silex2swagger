@@ -15,5 +15,5 @@ set_time_limit(0);
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new \Radebatz\Console\Command\Silex2SwaggerCommand());
+$application->add(new \Radebatz\Silex2Swagger\Console\Command\Silex2SwaggerCommand());
 $application->run();

@@ -9,25 +9,24 @@
 * file that was distributed with this source code.
 */
 
-namespace Radebatz\Silex\Swagger;
+namespace Radebatz\Silex2Swagger\Swagger;
 
 use Swagger\Analyser;
 use Swagger\Analysis;
-use Silex\Application;
-use Radebatz\Silex\Swagger\Annotations\CustomAnnotation;
-use Radebatz\Silex\Swagger\Processors\CustomAnnotations;
+use Radebatz\Silex2Swagger\Swagger\Annotations\CustomAnnotation;
+use Radebatz\Silex2Swagger\Swagger\Processors\CustomAnnotations;
 
 /**
  * Silex 2 swagger analysis to wrap Silex annotations.
  */
-class Silex2SwaggerAnalysis extends Analysis
+class S2SAnalysis extends Analysis
 {
     protected $customAnnotationsProcessor;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($annotations = [], $context = null, Silex2SwaggerConverter $silex2SwaggerConverter = null, array $namespaces = [])
+    public function __construct($annotations = [], $context = null, S2SConverter $s2sConverter = null, array $namespaces = [])
     {
         parent::__construct($annotations, $context);
 
@@ -37,7 +36,7 @@ class Silex2SwaggerAnalysis extends Analysis
         }
 
         $processors =& self::processors();
-        array_unshift($processors, new CustomAnnotations($silex2SwaggerConverter));
+        array_unshift($processors, new CustomAnnotations($s2sConverter));
     }
 
     /**

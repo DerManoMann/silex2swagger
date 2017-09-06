@@ -1,6 +1,6 @@
 <?php
 
-namespace Radebatz\Silex\Swagger\Tests\Silex;
+namespace Radebatz\Silex2Swagger\Tests\Controller;
 
 use DDesrosiers\SilexAnnotations\Annotations as SLX;
 use Swagger\Annotations as SWG;
@@ -39,7 +39,7 @@ class SilexPrefixController
      *   @SLX\RequireHttps
      * )
      */
-    public function testRequireHttp()
+    public function testRequireHttps()
     {
         return '';
     }

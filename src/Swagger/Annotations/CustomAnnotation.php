@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Radebatz\Silex\Swagger\Annotations;
+namespace Radebatz\Silex2Swagger\Swagger\Annotations;
 
 use Swagger\Annotations\AbstractAnnotation;
 

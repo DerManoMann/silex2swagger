@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Radebatz\Silex\Swagger\Tests;
+namespace Radebatz\Silex2Swagger\Tests;
 
 use Swagger\Annotations as SWG;
 

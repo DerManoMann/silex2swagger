@@ -28,21 +28,20 @@
     },
     "autoload": {
         "psr-4": {
-            "Radebatz\\Silex\\Swagger\\": "src/Silex/Swagger",
-            "Radebatz\\Console\\Command\\": "src/Console/Command"
+            "Radebatz\\Silex2Swagger\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Radebatz\\Silex\\Swagger\\Tests\\": "tests"
+            "Radebatz\\Silex2Swagger\\Tests\\": "tests"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
+    "bin": [
+        "bin/silex2swagger"
+    ],
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     }
 }

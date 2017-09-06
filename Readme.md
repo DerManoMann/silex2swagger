@@ -9,8 +9,9 @@ With this bridge, in combination with [Swagger-PHP](https://github.com/zircote/s
 Typically the Swagger annotations are added on top of existing Silex annotations to complement/complete the definitions.
 
 
-## Example
-````
+## Mixing Silex and Swagger annotations
+
+````php
 <?php
 
 namespace mycode;
@@ -46,6 +47,55 @@ class Controller
 
 ````
 
+## Attaching Swagger properties to a Silex ````Request````
+Silex2Swagger provides a custom ````Request```` annotation that allows to attach any supported
+Swagger property to a request. All that is required is to use a custom implementation of the 
+Silex ````Request```` annotation. 
+
+````php
+<?php
+
+namespace mycode;
+
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Swagger\Annotations as SWG;
+use DDesrosiers\SilexAnnotations\Annotations as SLX;
+use Radebatz\Silex2Swagger\Swagger\Annotations as S2S;
+
+class Controller
+{
+
+    /**
+     * Update.
+     *
+     * @SLX\Route(
+     *   @S2S\Request(method="POST", uri="/login",
+     *     @S2S\SwaggerProperty(name="consumes", value={"application/x-www-form-urlencoded"})
+     *   ),
+     *
+     *   @SWG\Parameter(
+     *     name="email",
+     *     in="formData",
+     *     description="Email address",
+     *     required=true,
+     *     type="string"
+     *   ),
+     *   @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     description="Password",
+     *     required=true,
+     *     type="string"
+     *   )
+     * )
+     */
+    public function update(Application $app, Request $request) 
+    {
+        ...
+    }
+
+````
 
 ## Generating Swagger
 ### Using the CL
@@ -53,16 +103,19 @@ class Controller
 ./bin/silex2swagger silex2swagger:build --path=[src] --file=swagger.json
 ````
 
-### Using (Simple) Code
-```php
+### Using (simple) code
+````php
 <?php
+
 require 'vendor/autoload.php';
 
-use Radebatz\Silex\Swagger\SilexSwaggerAnalysis;
+use Silex\Application;
+use Radebatz\Silex2Swagger\Swagger\S2SAnalysis;
+use Radebatz\Silex2Swagger\Swagger\S2SConverter;
 
-$swagger = \Swagger\scan('./src', ['analysis' => new Silex2SwaggerAnalysis([], null, new Silex2SwaggerConverter(new Application()))]);
-echo $swagger
-```
+$swagger = \Swagger\scan('./src', ['analysis' => new S2SAnalysis([], null, new S2SConverter(new Application()))]);
+echo $swagger;
+````
 
 For a more complete example have a look at the included Symfony Console command.
 
@@ -71,7 +124,7 @@ For a more complete example have a look at the included Symfony Console command.
 * All annotation classes need to be in the class path (visible by the auto loader).
 * In order to accurately merge/group annotations it is necessary to use the `@SLX\Route`
   Example:
-````
+````php
     /**
      * @SLX\Route(
      *   @SLX\Request(method="GET", uri="/foo"),
@@ -105,3 +158,8 @@ For a more complete example have a look at the included Symfony Console command.
 
 ### v2.0.2
 * Fix double slash being created using ````@Controller```` without a prefix
+
+### v3.0.0
+* Introduce unique namespace and cleanup
+* Add custom Swagger-PHP Request annotation that supports all swagger properties
+

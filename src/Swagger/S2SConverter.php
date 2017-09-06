@@ -9,19 +9,18 @@
 * file that was distributed with this source code.
 */
 
-namespace Radebatz\Silex\Swagger;
+namespace Radebatz\Silex2Swagger\Swagger;
 
-use RuntimeException;
 use SplObjectStorage;
 use Psr\Log\LoggerInterface;
 use Swagger\Analyser;
-use Swagger\Analysis;
 use Swagger\Context;
 use Swagger\Annotations\AbstractAnnotation;
 use Swagger\Annotations\Parameter;
 use Swagger\Annotations\Response;
+use Swagger\Annotations as SWG;
 use DDesrosiers\SilexAnnotations\Annotations as SLX;
-use Radebatz\Silex\Swagger\Annotations\CustomAnnotation;
+use Radebatz\Silex2Swagger\Swagger\Annotations as S2S;
 
 /**
  * Silex 2 Swagger converter.
@@ -30,7 +29,7 @@ use Radebatz\Silex\Swagger\Annotations\CustomAnnotation;
  * - requestFilter: Callable to filter request annotations.
  * - autoResponse:  Boolean flag to enable/disable generation of default response annotations.
  */
-class Silex2SwaggerConverter
+class S2SConverter
 {
     protected $app;
     protected $options;
@@ -39,8 +38,8 @@ class Silex2SwaggerConverter
     protected $classAnnotations;
 
     /**
-     * @param Silex\Application $app      Silex application instance required for processing annotations.
-     * @param array             $options  Additional options.
+     * @param \Silex\Application $app Silex application instance required for processing annotations.
+     * @param array $options Additional options.
      */
     public function __construct($app, array $options = [], LoggerInterface $logger = null)
     {
@@ -50,7 +49,9 @@ class Silex2SwaggerConverter
                 'autoResponse' => false,
                 'autoDescription' => false,
                 'autoSummary' => true,
-                'extraCallback' => function($context, $method, $path) { return []; },
+                'extraCallback' => function ($context, $method, $path) {
+                    return [];
+                },
             ],
             $options
         );
@@ -60,16 +61,17 @@ class Silex2SwaggerConverter
         $this->classAnnotations = new SplObjectStorage();
 
         Analyser::$whitelist[] = 'DDesrosiers\SilexAnnotations\Annotations';
+        Analyser::$whitelist[] = 'Radebatz\Silex2Swagger\Swagger\Annotations';
     }
 
     /**
      * Migrate a non swagger annotation.
      *
-     * @param CustomAnnotation $customAnnotation A custom annotation.
+     * @param S2S\CustomAnnotation $customAnnotation A custom annotation.
      *
      * @return array List of swagger annotations.
      */
-    public function migrateAnnotation(CustomAnnotation $customAnnotation)
+    public function migrateAnnotation(S2S\CustomAnnotation $customAnnotation)
     {
         $migrated = [];
 
@@ -80,7 +82,7 @@ class Silex2SwaggerConverter
 
             // a controller as expected by Silex
             $controller = [
-                // chop leading \
+                // chop leading '\'
                 substr($context->fullyQualifiedName($context->class), 1),
                 $context->method,
             ];
@@ -99,7 +101,6 @@ class Silex2SwaggerConverter
                 if ($this->logger) {
                     $this->logger->warning(sprintf('Skipping loose annotation: %s', get_class($annotation)));
                 }
-                //throw new RuntimeException(sprintf('Unsupported annotation: %s', get_class($annotation)));
             }
         }
 
@@ -109,10 +110,10 @@ class Silex2SwaggerConverter
     /**
      * Handle a Silex route annotation.
      *
-     * @param SLX\Route $route          A Silex route annotation.
-     * @param mixed     $context        Swagger context.
-     * @param mixed     $controller     The controller
-     * @param array     $swgAnnotations Nested swagger annotations,
+     * @param SLX\Route $route A Silex route annotation.
+     * @param mixed $context Swagger context.
+     * @param mixed $controller The controller
+     * @param array $swgAnnotations Nested swagger annotations,
      *
      * @return array List of swagger annotations.
      */
@@ -145,10 +146,10 @@ class Silex2SwaggerConverter
     /**
      * Migrate a single request annotation.
      *
-     * @param SLX\Request $request       A Silex request annotation.
-     * @param mixed       $context       Swagger context.
-     * @param array       $swgAnnotation Optional nested swagger annotations.
-     * @param array       $extras        Optional extra configuration from elsewhere.
+     * @param SLX\Request $request A Silex request annotation.
+     * @param mixed $context Swagger context.
+     * @param array $swgAnnotation Optional nested swagger annotations.
+     * @param array $extras Optional extra configuration from elsewhere.
      *
      * @return array List of swagger annotations.
      */
@@ -191,6 +192,15 @@ class Silex2SwaggerConverter
         if ($extras['schemes']) {
             $swgAnnotations['schemes'] = $extras['schemes'];
         }
+//        var_dump($request);
+        if ($request instanceof S2S\Request) {
+            $keys = array_keys(SWG\Operation::$_types);
+            foreach ($request->swaggerProperties as $sp) {
+                if (in_array($sp->name, $keys)) {
+                    $extras['properties'][$sp->name] = $sp->value;
+                }
+            }
+        }
 
         // Silex allows method to be something like GET|POST
         $methods = strtolower($request->method);
@@ -200,9 +210,9 @@ class Silex2SwaggerConverter
         foreach (explode('|', $methods) as $method) {
             $method = trim($method);
             // for now we need this...
-            $path = str_replace('//', '/', '/'.$request->uri);
+            $path = str_replace('//', '/', '/' . $request->uri);
 
-            $swgClass = 'Swagger\\Annotations\\'.ucfirst($method);
+            $swgClass = 'Swagger\\Annotations\\' . ucfirst($method);
             /** @var SWG\Operation $swgOperation */
             $swgOperation = new $swgClass(array_merge([
                     '_context' => $context,
@@ -223,7 +233,7 @@ class Silex2SwaggerConverter
 
             // add nested SWG anotations back where they are expected - using plural in cases..
             foreach ($swgAnnotations as $property => $value) {
-                $properties = $property.'s';
+                $properties = $property . 's';
                 $key = null;
                 if (property_exists($swgOperation, $property)) {
                     $key = $property;
@@ -269,7 +279,7 @@ class Silex2SwaggerConverter
     /**
      * Apply class annotation to given request for matching context.
      *
-     * @param mixed $context  Swagger context.
+     * @param mixed $context Swagger context.
      * @param array $requests List of Silex request annotations.
      *
      * @return SLX\Controller|null
@@ -281,7 +291,7 @@ class Silex2SwaggerConverter
                 $classAnnotation = $this->classAnnotations->offsetGet($classContext);
                 // deal with prefix
                 foreach ($requests as $request) {
-                    $request->uri = $classAnnotation->prefix.'/'.$request->uri;
+                    $request->uri = $classAnnotation->prefix . '/' . $request->uri;
                     // keep relative
                     if ('/' == $request->uri[0]) {
                         $request->uri = substr($request->uri, 1);

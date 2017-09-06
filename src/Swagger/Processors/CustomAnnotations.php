@@ -9,26 +9,26 @@
 * file that was distributed with this source code.
 */
 
-namespace Radebatz\Silex\Swagger\Processors;
+namespace Radebatz\Silex2Swagger\Swagger\Processors;
 
 use SplObjectStorage;
 use Swagger\Analysis;
-use Radebatz\Silex\Swagger\Silex2SwaggerConverter;
-use Radebatz\Silex\Swagger\Annotations\CustomAnnotation;
+use Radebatz\Silex2Swagger\Swagger\S2SConverter;
+use Radebatz\Silex2Swagger\Swagger\Annotations\CustomAnnotation;
 
 /**
  * Process custom annotations.
  */
 class CustomAnnotations
 {
-    protected $silex2swagger;
+    protected $s2sConverter;
 
     /**
      * Create instance.
      */
-    public function __construct(Silex2SwaggerConverter $silex2swagger)
+    public function __construct(S2SConverter $s2sConverter)
     {
-        $this->silex2swagger = $silex2swagger;
+        $this->s2sConverter = $s2sConverter;
     }
 
     /**
@@ -41,7 +41,7 @@ class CustomAnnotations
         foreach ($analysis->annotations as $annotation) {
             if ($annotation instanceof CustomAnnotation) {
                 // migrate & replace
-                foreach ($this->silex2swagger->migrateAnnotation($annotation) as $migrated) {
+                foreach ($this->s2sConverter->migrateAnnotation($annotation) as $migrated) {
                     $add->attach($migrated);
                 }
 
