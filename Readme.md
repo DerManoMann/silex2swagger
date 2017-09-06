@@ -103,7 +103,7 @@ class Controller
 ./bin/silex2swagger silex2swagger:build --path=[src] --file=swagger.json
 ````
 
-### Using (simple) code
+### Using (simple) cCode
 ````php
 <?php
 
@@ -162,4 +162,4 @@ For a more complete example have a look at the included Symfony Console command.
 ### v3.0.0
 * Introduce unique namespace and cleanup
 * Add custom Swagger-PHP Request annotation that supports all swagger properties
-
+* Bump PHP requirements to PHP 5.6
