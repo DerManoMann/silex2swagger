@@ -301,7 +301,7 @@ class S2SConverter
     protected function applyClassAnnotation(Context $context, SLX\Request $request)
     {
         foreach ($this->classAnnotations as $classContext) {
-            if ($classContext->class == $context->class) {
+            if ($classContext->fullyQualifiedName($classContext->class) === $context->fullyQualifiedName($context->class)) {
                 $classAnnotation = $this->classAnnotations->offsetGet($classContext);
                 // deal with prefix
                 $request->uri = $classAnnotation->prefix . '/' . $request->uri;
