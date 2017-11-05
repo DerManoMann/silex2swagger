@@ -50,8 +50,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
                 __DIR__ . '/Fixtures/defaults.json',
             ],
             'multiplecontrollers' => [
-                ['--path' => __DIR__],
-                file_get_contents(__DIR__ . '/Fixtures/multiplecontrollers.json'),
+                ['--path' => __DIR__. '/Controller2'],
+                __DIR__ . '/Fixtures/multiplecontrollers.json',
             ],
             'auto' => [
                 ['--path' => __DIR__ . '/Controller', '--auto-response' => true, '--auto-description' => true, '--auto-summary' => true],

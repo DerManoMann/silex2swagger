@@ -1,49 +1,16 @@
 {
     "swagger": "2.0",
-    "info": {
-        "title": "Silex Test API",
-        "version": "1.0.0"
-    },
-    "basePath": "\/",
-    "consumes": [
-        "application\/json"
-    ],
-    "produces": [
-        "application\/json"
-    ],
     "paths": {
-        "\/request\/get": {
+        "\/silex1\/get1": {
             "get": {
-                "operationId": "testCustomRequest",
-                "consumes": [
-                    "application\/x-www-form-urlencoded"
-                ],
+                "operationId": "testGetRequestSilex",
                 "parameters": [],
                 "responses": {
                     "200": {
                         "description": "GET"
-                    }
-                }
-            }
-        },
-        "\/silex\/get": {
-            "get": {
-                "operationId": "testGetRequest",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "GET"
-                    }
-                }
-            }
-        },
-        "\/silex\/requirehttp": {
-            "get": {
-                "operationId": "testRequireHttp",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "GET"
+                    },
+                    "401": {
+                        "description": "not authorized"
                     }
                 },
                 "schemes": [
@@ -51,25 +18,18 @@
                 ]
             }
         },
-        "\/silex\/requirehttps": {
+        "\/silex2\/get2": {
             "get": {
-                "operationId": "testRequireHttps",
-                "parameters": [],
-                "schemes": [
-                    "https"
-                ]
-            }
-        },
-        "\/silex\/bind": {
-            "get": {
-                "operationId": "bound",
-                "parameters": []
-            }
-        },
-        "\/silex2\/get": {
-            "get": {
-                "operationId": "testGetRequestSilex2",
-                "parameters": [],
+                "operationId": "testGetRequestSilex",
+                "parameters": [
+                    {
+                        "parameter": "x-api-version",
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "GET"
@@ -78,23 +38,19 @@
             }
         }
     },
-    "definitions": {
-        "jsonError": {
-            "required": [
-                "code",
-                "message"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
+    "definitions": {},
+    "parameters": {
+        "x-api-version": {
+            "name": "x-api-version",
+            "in": "header",
+            "required": true,
+            "type": "string"
         }
     },
     "responses": {
+        "401": {
+            "description": "not authorized"
+        },
         "200": {
             "description": "GET"
         }
