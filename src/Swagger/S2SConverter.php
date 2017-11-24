@@ -200,6 +200,7 @@ class S2SConverter
 
         if ($request instanceof S2S\Request) {
             $keys = array_keys(SWG\Operation::$_types);
+            $keys[] = 'security';
             foreach ($request->swaggerProperties as $sp) {
                 if (in_array($sp->name, $keys)) {
                     $extras['properties'][$sp->name] = $sp->value;

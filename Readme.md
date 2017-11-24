@@ -202,3 +202,6 @@ For a more complete example have a look at the included Symfony Console command.
 ### v3.0.1
 * Fix bug where controller classes need to be compared using FQCN
 * Allow to share parameters and responses within a controller [#9]
+
+### v3.0.2
+* Allow to set all public request properties via @S2S\SwaggerProperty [#12]
