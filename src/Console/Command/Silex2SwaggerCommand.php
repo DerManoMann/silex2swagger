@@ -36,7 +36,7 @@ class Silex2SwaggerCommand extends Command
             ->setName('silex2swagger:build')
             ->setDescription('Build swagger.json')
             ->addOption('file', null, InputOption::VALUE_REQUIRED, 'Output file; if empty stdout will be used.', null)
-            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'Source path.', './src')
+            ->addOption('path', null, InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Source path.', ['./src'])
             ->addOption('namespace', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Additional annotation namespaces to process.', [])
             ->addOption('auto-response', null, InputOption::VALUE_NONE, 'Create default response if none set.')
             ->addOption('auto-description', null, InputOption::VALUE_NONE, 'Create default operation description based on method and path if none set.')

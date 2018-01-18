@@ -57,6 +57,10 @@ class CommandTest extends \PHPUnit_Framework_TestCase
                 ['--path' => __DIR__ . '/Controller', '--auto-response' => true, '--auto-description' => true, '--auto-summary' => true],
                 __DIR__ . '/Fixtures/auto.json',
             ],
+            'multi-path' => [
+                ['--path' => [__DIR__ . '/Controller', __DIR__ . '/Controller2']],
+                __DIR__ . '/Fixtures/multi-path.json',
+            ],
         ];
     }
 

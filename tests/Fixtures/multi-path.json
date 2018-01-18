@@ -1,0 +1,210 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Silex Test API",
+        "version": "1.0.0"
+    },
+    "basePath": "\/",
+    "consumes": [
+        "application\/json"
+    ],
+    "produces": [
+        "application\/json"
+    ],
+    "paths": {
+        "\/request\/get": {
+            "get": {
+                "operationId": "testCustomRequest",
+                "consumes": [
+                    "application\/x-www-form-urlencoded"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        },
+        "\/shared_all\/get": {
+            "get": {
+                "operationId": "testGetRequest",
+                "parameters": [
+                    {
+                        "parameter": "x-api-version",
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    },
+                    "401": {
+                        "description": "not authorized"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "testPostRequest",
+                "parameters": [
+                    {
+                        "parameter": "x-api-version",
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "not authorized"
+                    }
+                }
+            }
+        },
+        "\/shared\/get": {
+            "get": {
+                "operationId": "testGetRequest",
+                "parameters": [
+                    {
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "testPostRequest",
+                "parameters": [
+                    {
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST"
+                    }
+                }
+            }
+        },
+        "\/silex\/get": {
+            "get": {
+                "operationId": "testGetRequest",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        },
+        "\/silex\/requirehttp": {
+            "get": {
+                "operationId": "testRequireHttp",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                },
+                "schemes": [
+                    "http"
+                ]
+            }
+        },
+        "\/silex\/requirehttps": {
+            "get": {
+                "operationId": "testRequireHttps",
+                "parameters": [],
+                "schemes": [
+                    "https"
+                ]
+            }
+        },
+        "\/silex\/bind": {
+            "get": {
+                "operationId": "bound",
+                "parameters": []
+            }
+        },
+        "\/silex1\/get1": {
+            "get": {
+                "operationId": "testGetRequestSilex",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    },
+                    "401": {
+                        "description": "not authorized"
+                    }
+                },
+                "schemes": [
+                    "http"
+                ]
+            }
+        },
+        "\/silex2\/get2": {
+            "get": {
+                "operationId": "testGetRequestSilex",
+                "parameters": [
+                    {
+                        "name": "x-api-version",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "jsonError": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "parameters": {
+        "x-api-version": {
+            "name": "x-api-version",
+            "in": "header",
+            "required": true,
+            "type": "string"
+        }
+    },
+    "responses": {
+        "200": {
+            "description": "GET"
+        },
+        "401": {
+            "description": "not authorized"
+        }
+    }
+}

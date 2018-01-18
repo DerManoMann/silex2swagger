@@ -204,4 +204,7 @@ For a more complete example have a look at the included Symfony Console command.
 * Allow to share parameters and responses within a controller [#9]
 
 ### v3.0.2
-* Allow to set all public request properties via @S2S\SwaggerProperty [#12]
+* Allow to set all public request properties via @S2S\SwaggerProperty   [#12]
+
+### v3.0.3
+* Allow to specify multiple source locations on command line [#14]
