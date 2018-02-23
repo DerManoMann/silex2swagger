@@ -26,6 +26,29 @@
                 }
             }
         },
+        "\/request\/get\/{userId}": {
+            "get": {
+                "operationId": "testCustomRequest",
+                "consumes": [
+                    "application\/x-www-form-urlencoded"
+                ],
+                "parameters": [
+                    {
+                        "parameter": "userId",
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET"
+                    }
+                }
+            }
+        },
         "\/shared_all\/get": {
             "get": {
                 "operationId": "testGetRequest",
@@ -157,6 +180,11 @@
         }
     },
     "parameters": {
+        "userId": {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID"
+        },
         "x-api-version": {
             "name": "x-api-version",
             "in": "header",

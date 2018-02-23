@@ -248,18 +248,22 @@ class S2SConverter
                 }
 
                 if (is_array($swgOperation->$key) && is_array($value) && 'parameters' == $key) {
-                    // TODO: check for matching values; ie matching property names and then merge on value level
                     foreach ($value as $parameter) {
-                        // does that parameter already exist?
                         $merged = false;
                         foreach ($swgOperation->$key as $cp) {
-                            if ($cp->name == $parameter->name) {
-                                $merged = true;
-                                // todo: merge!
+                            // does that parameter already exist?
+                            if ($cp->name == $parameter->name && $cp->in == $parameter->in) {
+                                foreach (array_keys(SWG\Parameter::$_types) as $pkey) {
+                                    if ($parameter->$pkey) {
+                                        $cp->$pkey = $parameter->$pkey;
+                                        $merged = true;
+                                    }
+                                }
                                 break;
                             }
                         }
                         if (!$merged) {
+                            // not merged, so lets add it
                             $swgOperation->{$key}[] = $parameter;
                         }
                     }
