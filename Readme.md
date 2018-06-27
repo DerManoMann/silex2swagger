@@ -211,3 +211,6 @@ For a more complete example have a look at the included Symfony Console command.
 
 ### v3.0.4
 * Finally merge auto-generated and annotated parameter definitions [#16]
+
+### v3.0.5
+* Code cleanup
