@@ -11,8 +11,6 @@
 
 namespace Radebatz\Silex2Swagger\Tests;
 
-use Swagger\Annotations as SWG;
-
 /**
  * @SWG\Swagger(
  *   basePath="/",

@@ -22,10 +22,10 @@ use Swagger\Annotations as SWG;
 class Controller extends SLX\Controller
 {
 
-    /** @var \Swagger\Annotations\Parameter[] */
+    /** @var SWG\Parameter[] */
     public $parameters = [];
 
-    /** @var \Swagger\Annotations\Response[] */
+    /** @var SWG\Response[] */
     public $responses = [];
 
     /**
@@ -36,13 +36,13 @@ class Controller extends SLX\Controller
     public function __construct(array $values = [])
     {
         foreach ($values as $propertyName => $value) {
-            if ('value' == $propertyName) {
+            if ('value' === $propertyName) {
                 // might be array or single value...
                 $values = is_array($value) ? $value : [$value];
-                foreach ($values as $value) {
-                    $classPath = explode("\\", get_class($value));
+                foreach ($values as $innerValue) {
+                    $classPath = explode("\\", get_class($innerValue));
                     $propertyName = lcfirst(array_pop($classPath)) . 's';
-                    $this->{$propertyName}[] = $value;
+                    $this->{$propertyName}[] = $innerValue;
                 }
             } else {
                 $this->{$propertyName} = $value;

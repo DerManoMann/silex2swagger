@@ -71,6 +71,6 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $swagger = $this->runCommand($args);
 
-        $this->assertEquals(file_get_contents($expected), $swagger);
+        $this->assertStringEqualsFile($expected, $swagger);
     }
 }

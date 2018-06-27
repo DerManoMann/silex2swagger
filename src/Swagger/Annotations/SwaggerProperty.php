@@ -20,8 +20,8 @@ class SwaggerProperty
 {
 
     /** @var string */
-    public $name = null;
+    public $name;
 
     /** @var mixed */
-    public $value = null;
+    public $value;
 }

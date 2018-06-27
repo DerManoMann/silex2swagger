@@ -87,7 +87,7 @@ class S2SConverter
                 $context->method,
             ];
 
-            if (($annotation instanceof SLX\Controller) || ($annotation instanceof SLX\Controller)) {
+            if ($annotation instanceof SLX\Controller) {
                 // these are processed *before* any controller methods
                 $this->classAnnotations->attach($context, $annotation);
             } elseif ($annotation instanceof SLX\Route) {
@@ -119,8 +119,6 @@ class S2SConverter
      */
     protected function handleRoute(SLX\Route $route, Context $context, $controller)
     {
-        $migrated = [];
-
         // process Silex annotation
         $route->process($this->app['controllers_factory'], $controller, $this->app);
 
@@ -135,9 +133,15 @@ class S2SConverter
         $extras = $this->getExtras($route);
 
         if (property_exists($route, 'request') && $route->request) {
-            foreach ($route->request as $request) {
-                $migrated = array_merge($migrated, $this->migrateRequest($request, $context, $swgAnnotations, $extras));
-            }
+            $migrated = array_merge(
+                [],
+                ...array_map(
+                    function($request) use ($extras, $swgAnnotations, $context) {
+                        return $this->migrateRequest($request, $context, $swgAnnotations, $extras);
+                    },
+                    $route->request
+                )
+            );
         }
 
         return $migrated;
@@ -211,7 +215,7 @@ class S2SConverter
         // Silex allows method to be something like GET|POST
         $methods = strtolower($request->method);
         // MATCH matches all
-        $methods = 'match' != $methods ? $methods : 'get|post|put|delete|options|head|patch';
+        $methods = 'match' !== $methods ? $methods : 'get|post|put|delete|options|head|patch';
 
         foreach (explode('|', $methods) as $method) {
             $method = trim($method);
@@ -247,7 +251,7 @@ class S2SConverter
                     $key = $properties;
                 }
 
-                if (is_array($swgOperation->$key) && is_array($value) && 'parameters' == $key) {
+                if (is_array($swgOperation->$key) && is_array($value) && 'parameters' === $key) {
                     foreach ($value as $parameter) {
                         $merged = false;
                         foreach ($swgOperation->$key as $cp) {
@@ -280,8 +284,6 @@ class S2SConverter
             }
 
             if (!$swgOperation->responses && $this->options['autoResponse']) {
-                $swgOperation->responses = $swgOperation->responses ?: [];
-
                 // add default response to make swagger happier :/
                 $swgOperation->responses = [new Response([
                     'response' => 'default',
@@ -311,7 +313,7 @@ class S2SConverter
                 // deal with prefix
                 $request->uri = $classAnnotation->prefix . '/' . $request->uri;
                 // keep relative
-                if ('/' == $request->uri[0]) {
+                if ('/' === $request->uri[0]) {
                     $request->uri = substr($request->uri, 1);
                 }
 
@@ -346,7 +348,7 @@ class S2SConverter
                 if (is_array($annotations)) {
                     foreach ($annotations as $annotation) {
                         if ($annotation instanceof SLX\Modifier) {
-                            if ('addRequirements' == $annotation->method) {
+                            if ('addRequirements' === $annotation->method) {
                                 $extras['requirements'] = $annotation->args[0];
                             }
                         } elseif ($annotation instanceof SLX\RequireHttp) {
