@@ -119,6 +119,8 @@ class S2SConverter
      */
     protected function handleRoute(SLX\Route $route, Context $context, $controller)
     {
+        $migrated = [];
+
         // process Silex annotation
         $route->process($this->app['controllers_factory'], $controller, $this->app);
 
