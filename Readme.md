@@ -10,6 +10,9 @@ With this bridge, in combination with [Swagger-PHP](https://github.com/zircote/s
 
 Typically the Swagger annotations are added on top of existing Silex annotations to complement/complete the definitions.
 
+---
+## For OpenApi 3.0 and support for other frameworks use [radebatz/openapi-router](https://packagist.org/packages/radebatz/openapi-router)
+---
 
 ## Mixing Silex and Swagger annotations
 
